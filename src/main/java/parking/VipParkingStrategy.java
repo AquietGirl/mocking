@@ -46,7 +46,7 @@ public class VipParkingStrategy implements ParkingStrategy {
 		return receipt;
 	}
 
-	private boolean isAllowOverPark(Car car){
+	public boolean isAllowOverPark(Car car){
 		return carDao.isVip(car.getName()) && StringUtils.contains(car.getName(), "A");
 	}
 

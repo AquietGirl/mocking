@@ -94,6 +94,7 @@ public class InOrderParkingStrategyTest {
         assertEquals(receipt.getCarName(), result.getCarName());
         assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
         verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
+        verify(parkingLot, times(1)).isFull();
     }
 
     @Test
@@ -122,6 +123,7 @@ public class InOrderParkingStrategyTest {
         assertEquals(receipt.getCarName(), result.getCarName());
         assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
         verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
+        verify(parkingLot, times(1)).isFull();
     }
 
     @Test
@@ -150,6 +152,7 @@ public class InOrderParkingStrategyTest {
         assertEquals(receipt.getCarName(), result.getCarName());
         assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
         verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
+        verify(parkingLot, times(1)).isFull();
     }
 
     @Test
