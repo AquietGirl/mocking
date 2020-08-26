@@ -10,8 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class InOrderParkingStrategyTest {
@@ -74,6 +73,19 @@ public class InOrderParkingStrategyTest {
 
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
 
+        //given
+        Car car = createMockCar("car1");
+        ParkingLot parkingLot = createMockParkingLot("parkingLot1", 10);
+        when(parkingLot.isFull()).thenReturn(true);
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingLotList.add(parkingLot);
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+
+        //when
+        inOrderParkingStrategy.park(parkingLotList, car);
+
+        //then
+        verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
     }
 
     @Test
