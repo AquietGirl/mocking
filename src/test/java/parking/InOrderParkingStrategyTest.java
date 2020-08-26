@@ -93,6 +93,19 @@ public class InOrderParkingStrategyTest {
 
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for one available parking lot */
 
+        //given
+        Car car = createMockCar("car1");
+        ParkingLot parkingLot = createMockParkingLot("parkingLot1", 10);
+        when(parkingLot.isFull()).thenReturn(false);
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingLotList.add(parkingLot);
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+
+        //when
+        inOrderParkingStrategy.park(parkingLotList, car);
+
+        //then
+        verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
     }
 
     @Test
