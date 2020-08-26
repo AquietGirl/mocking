@@ -14,12 +14,35 @@ import static org.mockito.Mockito.when;
 
 public class InOrderParkingStrategyTest {
 
+    private InOrderParkingStrategy inOrderParkingStrategy;
+
+    @Before
+    public void setUp(){
+        inOrderParkingStrategy = new InOrderParkingStrategy ();
+    }
+
 	@Test
     public void testCreateReceipt_givenACarAndAParkingLog_thenGiveAReceiptWithCarNameAndParkingLotName() {
 
 	    /* Exercise 1, Write a test case on InOrderParkingStrategy.createReceipt()
 	    * With using Mockito to mock the input parameter */
 
+	    //given
+        String carName = "car1";
+        String parkingLotName = "parkingLot1";
+        Car car = createMockCar(carName);
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingLotList.add(createMockParkingLot("parkingLot1", 10));
+	    Receipt receipt = new Receipt();
+	    receipt.setParkingLotName(parkingLotName);
+	    receipt.setCarName(carName);
+
+	    //when
+        Receipt result = inOrderParkingStrategy.park(parkingLotList, car);
+
+        //then
+        assertEquals(receipt.getCarName(), result.getCarName());
+        assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
     }
 
     @Test
