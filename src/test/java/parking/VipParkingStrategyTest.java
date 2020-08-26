@@ -12,6 +12,8 @@ public class VipParkingStrategyTest {
 	    /* Exercise 4, Write a test case on VipParkingStrategy.park()
 	    * With using Mockito spy, verify and doReturn */
 
+
+
     }
 
     @Test

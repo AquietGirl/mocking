@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,17 +130,25 @@ public class InOrderParkingStrategyTest {
         /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for one available parking lot but it is full */
 
         //given
-        Car car = createMockCar("car1");
+        String carName = "car1";
+        String parkingLotName = "No Parking Lot";
+        Car car = createMockCar(carName);
         ParkingLot parkingLot = createMockParkingLot("parkingLot1", 10);
         when(parkingLot.isFull()).thenReturn(true);
         List<ParkingLot> parkingLotList = new ArrayList<>();
         parkingLotList.add(parkingLot);
+        Receipt receipt = new Receipt();
+        receipt.setCarName(carName);
+        receipt.setParkingLotName(parkingLotName);
+
         InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
 
         //when
-        inOrderParkingStrategy.park(parkingLotList, car);
+        Receipt result =  inOrderParkingStrategy.park(parkingLotList, car);
 
         //then
+        assertEquals(receipt.getCarName(), result.getCarName());
+        assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
         verify(inOrderParkingStrategy, times(1)).park(anyList(), any());
     }
 
@@ -147,6 +156,42 @@ public class InOrderParkingStrategyTest {
     public void testPark_givenThereIsMultipleParkingLotAndFirstOneIsFull_thenCreateReceiptWithUnfullParkingLot() {
 
         /* Exercise 3: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for multiple parking lot situation */
+
+        //given
+        ParkingLot parkingLot1 = createMockParkingLot("parkingLot1", 10);
+        when(parkingLot1.isFull()).thenReturn(true);
+        ParkingLot parkingLot2 = createMockParkingLot("parkingLot2", 10);
+        when(parkingLot2.isFull()).thenReturn(false);
+        ParkingLot parkingLot3 = createMockParkingLot("parkingLot3", 10);
+        when(parkingLot3.isFull()).thenReturn(false);
+        ParkingLot parkingLot4 = createMockParkingLot("parkingLot4", 10);
+        when(parkingLot4.isFull()).thenReturn(false);
+
+        List<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingLotList.add(parkingLot1);
+        parkingLotList.add(parkingLot2);
+        parkingLotList.add(parkingLot3);
+        parkingLotList.add(parkingLot4);
+        Receipt receipt = new Receipt();
+        receipt.setCarName("car1");
+        receipt.setParkingLotName("parkingLot2");
+
+        Car car = createMockCar("car1");
+
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+
+        //when
+        Receipt result = inOrderParkingStrategy.park(parkingLotList, car);
+
+        //then
+        verify(inOrderParkingStrategy, times(1)).park(anyList(),any());
+        verify(parkingLot1, times(1)).isFull();
+        verify(parkingLot2, times(1)).isFull();
+        verify(parkingLot3, times(0)).isFull();
+        verify(parkingLot4, times(0)).isFull();
+        assertEquals(receipt.getCarName(), result.getCarName());
+        assertEquals(receipt.getParkingLotName(), result.getParkingLotName());
+
 
     }
 
